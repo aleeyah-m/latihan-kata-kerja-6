@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latihan Kata Kerja — Latihan 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#1E3A4C; --indigo-deep:#132833; --gold:#C89B3C; --gold-soft:#E4C878;
+    --cream:#F5F0E1; --cream-card:#FBF8EF; --coral:#D65F4C; --coral-soft:#F3D9D3;
+    --green:#4F7756; --green-soft:#DCE7D8; --amber-soft:#F2E4C4; --ink:#24313A;
+    --ink-soft:#5B6B72; --line:#D9D0B8;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap{max-width:800px;margin:0 auto;padding:40px 20px 100px;}
+
+  header{ position:relative; background:var(--indigo); color:var(--cream); border-radius:20px; padding:36px 32px; margin-bottom:36px; overflow:hidden; }
+  header::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(200,155,60,0.08) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(25deg, rgba(200,155,60,0.06) 0 2px, transparent 2px 22px);
+    pointer-events:none;
+  }
+  .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-soft); position:relative; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(26px,5vw,36px); margin:8px 0 6px; position:relative; line-height:1.15; }
+  .subline{position:relative; color:#C9D6DC; font-size:14px; margin:0 0 4px;}
+  .subline .tag-peman{ font-family:'IBM Plex Mono', monospace; color:var(--gold-soft); background:rgba(228,200,120,0.14); padding:1px 7px; border-radius:6px; }
+
+  .instructions{ position:relative; margin-top:18px; background:rgba(255,255,255,0.06); border:1px solid rgba(228,200,120,0.3); border-radius:14px; padding:18px 20px 16px; }
+  .instructions-title{margin:0 0 10px; font-family:'Fraunces', serif; font-weight:600; font-size:16px; color:var(--gold-soft);}
+  .instructions ol{margin:0; padding-left:20px; color:#D6E0E5; font-size:13.5px; line-height:1.65;}
+  .instructions ol > li{margin-bottom:8px;}
+  .instructions ol > li:last-child{margin-bottom:0;}
+  .instructions b{color:var(--gold-soft); font-weight:600;}
+
+  .progress-row{position:relative; margin-top:24px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .progress-track{flex:1; min-width:120px; height:8px; border-radius:99px; background:rgba(255,255,255,0.14); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold-soft)); border-radius:99px; transition:width .5s cubic-bezier(.4,1.4,.6,1);}
+  .progress-label{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--gold-soft); white-space:nowrap;}
+  .clear-btn{
+    flex:0 0 auto; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:12.5px;
+    color:var(--cream); background:rgba(255,255,255,0.1); border:1px solid rgba(228,200,120,0.4);
+    border-radius:99px; padding:7px 14px; cursor:pointer; white-space:nowrap; transition:background .2s, border-color .2s;
+  }
+  .clear-btn:hover{background:rgba(214,95,76,0.25); border-color:var(--coral);}
+  @media (max-width:480px){ .progress-row{flex-wrap:wrap;} .clear-btn{width:100%; order:3;} }
+
+  .legend{background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:32px;}
+  .legend summary{
+    cursor:pointer; font-family:'Fraunces', serif; font-weight:600; font-size:16px; color:var(--indigo);
+    list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .legend summary::-webkit-details-marker{display:none;}
+  .legend summary::after{ content:"↓ ดูเคล็ดลับ"; font-family:'Plus Jakarta Sans',sans-serif; font-weight:500; font-size:12.5px; color:var(--ink-soft); white-space:nowrap; }
+  .legend[open] summary::after{content:"↑ ซ่อน";}
+  .legend-grid{margin-top:12px; display:grid; grid-template-columns:1fr; gap:10px;}
+  .legend-item{ display:grid; grid-template-columns:70px 1fr; gap:12px; align-items:baseline; font-size:13.5px; padding:8px 10px; border-radius:10px; background:rgba(30,58,76,0.03); }
+  .legend-tag{ font-family:'IBM Plex Mono', monospace; font-weight:600; color:var(--indigo); background:var(--amber-soft); border-radius:6px; padding:2px 6px; text-align:center; font-size:12.5px; }
+  .legend-item b{color:var(--indigo);}
+
+  .thread{position:relative;}
+  .thread::before{
+    content:""; position:absolute; left:23px; top:8px; bottom:8px; width:2px;
+    background:repeating-linear-gradient(var(--line), var(--line) 6px, transparent 6px, transparent 11px); z-index:0;
+  }
+  .card{position:relative; z-index:1; display:flex; gap:16px; margin-bottom:18px;}
+  .node{
+    flex:0 0 48px; height:48px; border-radius:50%; background:var(--cream-card); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace;
+    font-weight:600; color:var(--ink-soft); transition:all .3s ease; margin-top:6px;
+  }
+  .card.correct .node{background:var(--gold); border-color:var(--gold); color:var(--indigo-deep);}
+  .card-body{ flex:1; background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; transition:border-color .3s ease; }
+  .card.correct .card-body{border-color:var(--gold);}
+
+  .sentence{ font-family:'Fraunces', serif; font-size:17px; line-height:1.8; color:var(--ink); }
+  .sentence .root-hint{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--ink-soft);
+    background:rgba(30,58,76,0.05); padding:1px 7px; border-radius:6px; margin-left:2px;
+  }
+  .blank-input{
+    display:inline-block; width:150px; padding:5px 10px; margin:0 4px;
+    border:none; border-bottom:2px solid var(--line); background:rgba(200,155,60,0.06);
+    font-family:'IBM Plex Mono', monospace; font-size:15px; color:var(--indigo); font-weight:600;
+    outline:none; text-align:center; border-radius:6px 6px 0 0; transition:border-color .2s, background .2s;
+  }
+  .blank-input:focus{border-color:var(--indigo); background:rgba(30,58,76,0.06);}
+  .blank-input.fb-green{border-color:var(--green); background:var(--green-soft);}
+  .blank-input.fb-yellow{border-color:var(--gold); background:var(--amber-soft);}
+  .blank-input.fb-red{border-color:var(--coral); background:var(--coral-soft);}
+  .blank-input:disabled{opacity:0.8;}
+
+  .hint-btn{
+    background:none; border:none; color:var(--ink-soft); font-size:12.5px; text-decoration:underline;
+    cursor:pointer; padding:8px 0 0; font-family:'Plus Jakarta Sans',sans-serif; display:block;
+  }
+
+  .feedback{margin-top:12px; border-radius:12px; padding:14px 16px; font-size:14px; line-height:1.55; display:none;}
+  .feedback.show{display:block; animation:pop .25s ease;}
+  @keyframes pop{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);}}
+  .feedback.green{background:var(--green-soft); color:#2E4A33;}
+  .feedback.yellow{background:var(--amber-soft); color:#5C4818;}
+  .feedback.red{background:var(--coral-soft); color:#7A2D22;}
+  .feedback .tag{font-weight:700; margin-bottom:4px; display:block;}
+  .feedback .formula{ font-family:'IBM Plex Mono', monospace; font-size:13px; margin-top:8px; padding:8px 10px; background:rgba(255,255,255,0.55); border-radius:8px; display:inline-block; }
+
+  .submit-all-row{display:flex; justify-content:center; margin:8px 0 8px;}
+  button.submit-all{
+    padding:14px 32px; border-radius:99px; border:none; background:var(--indigo); color:var(--cream);
+    font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:15px; cursor:pointer;
+    transition:background .2s, transform .15s; box-shadow:0 4px 14px rgba(30,58,76,0.25);
+  }
+  button.submit-all:hover{background:var(--indigo-deep); transform:translateY(-1px);}
+
+  .summary{margin-top:20px; background:var(--indigo); color:var(--cream); border-radius:20px; padding:32px; text-align:center; display:none;}
+  .summary.show{display:block; animation:pop .4s ease;}
+  .summary h2{font-family:'Fraunces', serif; font-size:26px; margin:0 0 8px; color:var(--gold-soft);}
+  .summary p{margin:0; color:#C9D6DC; font-size:14.5px;}
+  .summary .score{font-family:'IBM Plex Mono', monospace; font-size:38px; color:var(--gold); margin:10px 0;}
+  .reset-btn{ margin-top:18px; background:var(--gold); color:var(--indigo-deep); border:none; padding:10px 22px; border-radius:99px; font-weight:700; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; }
+
+  @media (max-width:520px){
+    .card{gap:10px;}
+    .node{flex:0 0 36px;height:36px;font-size:12px;margin-top:4px;}
+    .thread::before{left:17px;}
+    .card-body{padding:16px;}
+    .sentence{font-size:15.5px;}
+    .blank-input{width:120px; font-size:13.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Latihan 6 · Kata Kerja · เติมคำในประโยค</div>
+    <h1>เติมคำกริยา meN- ในประโยค</h1>
+    <p class="subline">เปลี่ยนคำในวงเล็บให้เป็น <span class="tag-peman">Kata Kerja Terbitan</span> โดยใช้หน่วยคำเติม meN- ที่ถูกต้อง แล้วเติมลงในประโยค</p>
+
+    <div class="instructions">
+      <p class="instructions-title">📋 คำชี้แจง</p>
+      <ol>
+        <li>อ่านประโยคให้เข้าใจก่อน แล้วเปลี่ยนคำในวงเล็บให้เป็น <b>Kata Kerja Terbitan</b> โดยเติมหน่วยคำเติม <b>meN-</b> (mem-, men-, meng-, meny-, menge- หรือ me-) ให้ถูกต้องตามเสียงแรกของราก</li>
+        <li>กรอกคำตอบในช่องว่างกลางประโยคให้ครบทั้ง 12 ข้อ แล้วกด <b>"ส่งคำตอบ"</b> ด้านล่างสุดเพียงครั้งเดียว เพื่อตรวจทุกข้อพร้อมกัน</li>
+        <li>ข้อที่ถูก 🟢 จะถูกล็อกไว้ — ข้อที่ผิดหรือยังไม่ได้ตอบ 🔴 จะขึ้นคำอธิบาย ให้แก้ไขแล้วกด <b>"ทำอีกครั้ง"</b></li>
+        <li>กด <b>"💡 ต้องการคำใบ้?"</b> รายข้อ หรือเปิดแผง <b>"เคล็ดลับ"</b> ด้านล่างก่อนเริ่มทำ — ปุ่ม <b>"↺ ล้างคำตอบ"</b> ใช้เริ่มทำใหม่ได้ตลอดเวลา</li>
+      </ol>
+    </div>
+
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 / 12 ถูกต้อง</div>
+      <button class="clear-btn" onclick="confirmReset()" title="ล้างคำตอบทั้งหมดและเริ่มทำใหม่">↺ ล้างคำตอบ</button>
+    </div>
+  </header>
+
+  <details class="legend">
+    <summary>เคล็ดลับ: กฎการเปลี่ยนเสียง meN-</summary>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="legend-tag">mem-</span><span><b>b, p</b> (p หลุดหาย) — baca → membaca, pandu → memandu</span></div>
+      <div class="legend-item"><span class="legend-tag">men-</span><span><b>d, t, j</b> (t หลุดหาย, d/j คงตัว) — tulis → menulis, jahit → menjahit, tendang → menendang</span></div>
+      <div class="legend-item"><span class="legend-tag">meng-</span><span><b>สระ, k</b> (k หลุดหาย) — ajar → mengajar, kawal → mengawal</span></div>
+      <div class="legend-item"><span class="legend-tag">me-</span><span><b>m, n, l, r, w, y</b> (เสียงนาสิก/ลิ้นสั่นอยู่แล้ว) — masak → memasak, minum → meminum</span></div>
+    </div>
+  </details>
+
+  <div class="thread" id="thread"></div>
+
+  <div class="submit-all-row" id="submitAllRow">
+    <button class="submit-all" onclick="submitAll()">ส่งคำตอบ</button>
+  </div>
+
+  <div class="summary" id="summary">
+    <h2 id="summaryTitle">Tahniah! 🎉</h2>
+    <div class="score" id="summaryScore">12 / 12</div>
+    <p id="summaryText">คุณเติมคำกริยา meN- ในประโยคได้ถูกต้องครบทุกข้อแล้ว</p>
+    <button class="reset-btn" id="tryAgainBtn" onclick="scrollToNextIssue()" style="display:none;">ทำอีกครั้ง</button>
+    <button class="reset-btn" id="resetAllBtn" onclick="resetAll()" style="display:none;">เริ่มใหม่อีกครั้ง</button>
+  </div>
+
+</div>
+
+<script>
+const DATA = [
+  { before:"Ali sedang ", after:" buku di perpustakaan.", root:"baca",
+    correct:["membaca"], display:"membaca", meaning:"อ่าน",
+    ruleTH:"baca ขึ้นต้นด้วย b (เสียงก้อง) จึงคงตัว b ไว้และเติม m หน้า → mem-" },
+  { before:"Siti ", after:" surat kepada kawannya.", root:"tulis",
+    correct:["menulis"], display:"menulis", meaning:"เขียน",
+    ruleTH:"tulis ขึ้นต้นด้วย t (เสียงไม่ก้อง) จึงตัด t ทิ้งและแทนที่ด้วย n → men-" },
+  { before:"Ibu ", after:" nasi di dapur.", root:"masak",
+    correct:["memasak"], display:"memasak", meaning:"ทำอาหาร / หุงข้าว",
+    ruleTH:"masak ขึ้นต้นด้วย m ซึ่งเป็นเสียงนาสิกอยู่แล้ว จึงเติมแค่ me- ต่อตรงกับราก (me+masak=memasak)" },
+  { before:"Ayah ", after:" kereta ke pejabat.", root:"pandu",
+    correct:["memandu"], display:"memandu", meaning:"ขับรถ",
+    ruleTH:"pandu ขึ้นต้นด้วย p (เสียงไม่ก้อง) จึงตัด p ทิ้งและแทนที่ด้วย m → mem-" },
+  { before:"Murid-murid ", after:" pokok di halaman sekolah.", root:"tanam",
+    correct:["menanam"], display:"menanam", meaning:"ปลูก(ต้นไม้)",
+    ruleTH:"tanam ขึ้นต้นด้วย t (เสียงไม่ก้อง) จึงตัด t ทิ้งและแทนที่ด้วย n → men-" },
+  { before:"Kakak ", after:" baju untuk adik.", root:"jahit",
+    correct:["menjahit"], display:"menjahit", meaning:"เย็บ(เสื้อผ้า)",
+    ruleTH:"jahit ขึ้นต้นด้วย j (เสียงก้อง) จึงคงตัว j ไว้และเติม n หน้า → men-",
+    common:{ "mengjahit":"jahit ขึ้นต้นด้วย j จัดกลุ่มเดียวกับ d ใช้ men- ไม่ใช่ meng- — คำที่ถูกต้องคือ menjahit" } },
+  { before:"Ahmad ", after:" bola kepada kawannya.", root:"tendang",
+    correct:["menendang"], display:"menendang", meaning:"เตะ",
+    ruleTH:"tendang ขึ้นต้นด้วย t (เสียงไม่ก้อง) จึงตัด t ทิ้งและแทนที่ด้วย n → men-",
+    common:{ "mentendang":"tendang ต้องตัด t ทิ้ง ไม่ใช่คงตัว t ไว้ — คำที่ถูกต้องคือ menendang ไม่ใช่ mentendang" } },
+  { before:"Guru ", after:" bahasa Melayu kepada murid.", root:"ajar",
+    correct:["mengajar"], display:"mengajar", meaning:"สอน",
+    ruleTH:"ajar ขึ้นต้นด้วยสระ a จึงใช้ meng-" },
+  { before:"Mereka ", after:" sampah di dalam tong sampah.", root:"buang",
+    correct:["membuang"], display:"membuang", meaning:"ทิ้ง",
+    ruleTH:"buang ขึ้นต้นด้วย b (เสียงก้อง) จึงคงตัว b ไว้และเติม m หน้า → mem-",
+    common:{ "memuang":"buang ขึ้นต้นด้วย b เสียงก้อง ต้องคงตัว b ไว้ ไม่ตัดออก — คำที่ถูกต้องคือ membuang ไม่ใช่ memuang" } },
+  { before:"Adik ", after:" susu setiap pagi.", root:"minum",
+    correct:["meminum"], display:"meminum", meaning:"ดื่ม",
+    ruleTH:"minum ขึ้นต้นด้วย m ซึ่งเป็นเสียงนาสิกอยู่แล้ว จึงเติมแค่ me- ต่อตรงกับราก (me+minum=meminum) — ในชีวิตประจำวันคนมักพูด \"minum\" เฉยๆ ได้เช่นกัน แต่โจทย์นี้ต้องการรูป Kata Kerja Terbitan ที่มี meN- ชัดเจน" },
+  { before:"Polis ", after:" lalu lintas di jalan raya.", root:"kawal",
+    correct:["mengawal"], display:"mengawal", meaning:"ควบคุมดูแล / ตรวจตรา",
+    ruleTH:"kawal ขึ้นต้นด้วย k (เสียงไม่ก้อง) จึงตัด k ทิ้งและแทนที่ด้วย ng → meng-",
+    common:{ "mengkawal":"kawal ต้องตัด k ทิ้ง ไม่ใช่คงตัว k ไว้ — คำที่ถูกต้องคือ mengawal ไม่ใช่ mengkawal" } },
+  { before:"Nelayan ", after:" ikan di laut.", root:"tangkap",
+    correct:["menangkap"], display:"menangkap", meaning:"จับ",
+    ruleTH:"tangkap ขึ้นต้นด้วย t (เสียงไม่ก้อง) จึงตัด t ทิ้งและแทนที่ด้วย n → men-",
+    common:{ "mentangkap":"tangkap ต้องตัด t ทิ้ง ไม่ใช่คงตัว t ไว้ — คำที่ถูกต้องคือ menangkap ไม่ใช่ mentangkap" } },
+];
+
+let solvedCount = 0;
+let anyAnswered = false;
+
+function normalize(s){
+  return s.trim().toLowerCase().replace(/\s+/g,'');
+}
+
+function buildCards(){
+  const thread = document.getElementById('thread');
+  thread.innerHTML = '';
+  DATA.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'card-'+i;
+    card.innerHTML = `
+      <div class="node">${String(i+1).padStart(2,'0')}</div>
+      <div class="card-body">
+        <div class="sentence">
+          ${item.before}<input type="text" class="blank-input" id="input-${i}" placeholder="…"
+            autocomplete="off" oninput="markAnswered()">
+          <span class="root-hint">(${item.root})</span>${item.after}
+        </div>
+        <button class="hint-btn" onclick="toggleHint(${i})" id="hintBtn-${i}">💡 ต้องการคำใบ้?</button>
+        <div class="feedback" id="feedback-${i}"></div>
+      </div>
+    `;
+    thread.appendChild(card);
+  });
+  document.getElementById('progressLabel').textContent = `0 / ${DATA.length} ถูกต้อง`;
+  document.getElementById('submitAllRow').style.display = 'flex';
+}
+
+function markAnswered(){ anyAnswered = true; }
+
+function toggleHint(i){
+  const fb = document.getElementById('feedback-'+i);
+  const item = DATA[i];
+  fb.className = 'feedback show yellow';
+  fb.innerHTML = `<span class="tag">💡 คำใบ้</span>${item.ruleTH}`;
+}
+
+function submitAll(){
+  DATA.forEach((item, i) => {
+    const card = document.getElementById('card-'+i);
+    if (card.classList.contains('correct')) return;
+
+    const input = document.getElementById('input-'+i);
+    const fb = document.getElementById('feedback-'+i);
+    const val = normalize(input.value);
+
+    input.classList.remove('fb-green','fb-yellow','fb-red');
+
+    if (val === '') {
+      fb.className = 'feedback show red';
+      input.classList.add('fb-red');
+      fb.innerHTML = `<span class="tag">🔴 ยังไม่ได้ตอบ</span>ข้อนี้ยังไม่ได้กรอก — เติมคำตอบแล้วกด "ทำอีกครั้ง"`;
+      return;
+    }
+
+    if (item.correct.includes(val)) {
+      input.classList.add('fb-green');
+      input.disabled = true;
+      fb.className = 'feedback show green';
+      fb.innerHTML = `
+        <span class="tag">🟢 Tahniah! 🎉</span>
+        ${item.display} (${item.meaning}) ถูกต้อง!
+        <div class="formula">${item.root} → ${item.display} = ${item.meaning}</div>
+      `;
+      card.classList.add('correct');
+      solvedCount++;
+      return;
+    }
+
+    if (item.common && item.common[val]) {
+      input.classList.add('fb-yellow');
+      fb.className = 'feedback show yellow';
+      fb.innerHTML = `
+        <span class="tag">🟡 Hampir betul!</span>
+        ${item.common[val]}
+        <div class="formula">${item.root} → ${item.display} (${item.meaning})</div>
+      `;
+      return;
+    }
+
+    const containsRoot = val.includes(item.root) || (item.root.length > 2 && val.includes(item.root.slice(1)));
+    if (containsRoot) {
+      input.classList.add('fb-yellow');
+      fb.className = 'feedback show yellow';
+      fb.innerHTML = `
+        <span class="tag">🟡 Hampir betul!</span>
+        มาจากรากเดียวกันแล้ว แต่การเปลี่ยนเสียงยังไม่ตรง — ${item.ruleTH}
+        <div class="formula">${item.root} → ${item.display} (${item.meaning})</div>
+      `;
+      return;
+    }
+
+    input.classList.add('fb-red');
+    fb.className = 'feedback show red';
+    fb.innerHTML = `
+      <span class="tag">🔴 Belum tepat!</span>
+      คำที่ถูกต้องคือ <b>${item.display}</b> ซึ่งมาจากรากศัพท์ <b>${item.root}</b><br>
+      ${item.ruleTH} → ความหมาย: ${item.meaning}
+      <div class="formula">${item.root} → ${item.display}</div>
+    `;
+  });
+
+  updateProgress();
+  showSummary();
+}
+
+function updateProgress(){
+  const pct = Math.round((solvedCount / DATA.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${solvedCount} / ${DATA.length} ถูกต้อง`;
+}
+
+function showSummary(){
+  const summary = document.getElementById('summary');
+  const title = document.getElementById('summaryTitle');
+  const scoreEl = document.getElementById('summaryScore');
+  const text = document.getElementById('summaryText');
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  const resetAllBtn = document.getElementById('resetAllBtn');
+
+  scoreEl.textContent = `${solvedCount} / ${DATA.length}`;
+  summary.classList.add('show');
+
+  if (solvedCount === DATA.length) {
+    title.textContent = 'Tahniah! 🎉';
+    text.textContent = 'คุณเติมคำกริยา meN- ในประโยคได้ถูกต้องครบทุกข้อแล้ว';
+    tryAgainBtn.style.display = 'none';
+    resetAllBtn.style.display = 'inline-block';
+    document.getElementById('submitAllRow').style.display = 'none';
+    summary.scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    const remaining = DATA.length - solvedCount;
+    title.textContent = 'ยังไม่ครบถ้วน';
+    text.textContent = `ยังมี ${remaining} ข้อที่ยังไม่ถูกหรือยังไม่ได้ตอบ ลองแก้ไขคำตอบที่ขึ้นสีแดง/เหลืองด้านบน แล้วกด "ทำอีกครั้ง"`;
+    tryAgainBtn.style.display = 'inline-block';
+    resetAllBtn.style.display = 'none';
+    summary.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function scrollToNextIssue(){
+  document.getElementById('summary').classList.remove('show');
+  const firstIssue = DATA.findIndex((_, i) => !document.getElementById('card-'+i).classList.contains('correct'));
+  if (firstIssue >= 0) {
+    document.getElementById('card-'+firstIssue).scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function confirmReset(){
+  if (!anyAnswered && solvedCount === 0) { resetAll(); return; }
+  if (window.confirm('ล้างคำตอบทั้งหมดและเริ่มทำใหม่ทั้ง 12 ข้อหรือไม่?')) {
+    resetAll();
+  }
+}
+
+function resetAll(){
+  solvedCount = 0;
+  anyAnswered = false;
+  document.getElementById('summary').classList.remove('show');
+  buildCards();
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+buildCards();
+</script>
+</body>
+</html>
